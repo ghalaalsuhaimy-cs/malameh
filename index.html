@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<title>ملامح</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sand:#f6ecd8;--card:#fffaf0;--ink:#3b2a1a;--muted:#7d6a52;
+  --accent:#b4642a;--on:#ffffff;--dune:#ecd7a8;--line:#e5d4b2;--camel:#6b4220;--err:#b3261e;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --sand:#1f1b2d;--card:#2a2540;--ink:#f3e8d2;--muted:#b9a98f;
+    --accent:#f0a95a;--on:#2b1b0a;--dune:#35304f;--line:#443d63;--camel:#120e1e;--err:#ff9a8f;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --sand:#1f1b2d;--card:#2a2540;--ink:#f3e8d2;--muted:#b9a98f;
+  --accent:#f0a95a;--on:#2b1b0a;--dune:#35304f;--line:#443d63;--camel:#120e1e;--err:#ff9a8f;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--sand);color:var(--ink);
+  font-family:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;font-size:16px;line-height:1.65}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--sand)}
+.wrap{max-width:1100px;margin:0 auto;position:relative;z-index:2;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* ---------- الواجهة العلوية ---------- */
+.hero{position:relative;background:var(--dune);overflow:hidden;padding-block:22px 135px}
+.lang{display:inline-flex;direction:ltr;background:var(--sand);border-radius:14px;padding:4px;gap:4px}
+.lang button{border:0;background:transparent;color:var(--muted);font:inherit;font-weight:500;
+  padding:7px 14px;border-radius:10px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--accent);color:var(--on)}
+.brand{margin:26px 0 0;font-weight:600;color:var(--accent)}
+h1{font-size:2.6rem;font-weight:600;margin:2px 0 8px;line-height:1.2;text-wrap:balance}
+.tagline{margin:0;max-width:34ch;font-size:1.05rem}
+.sun{position:absolute;bottom:40px;width:90px;height:90px;border-radius:50%;background:var(--accent);z-index:1}
+html[dir="rtl"] .sun{left:14%}
+html[dir="ltr"] .sun{right:14%}
+.caravan{position:absolute;bottom:26px;z-index:2;display:flex;align-items:flex-end;gap:4px;
+  direction:ltr;color:var(--camel);animation:walk 2.6s ease-out both}
+html[dir="rtl"] .caravan{left:3%}
+html[dir="ltr"] .caravan{right:3%}
+.caravan svg{display:block;height:auto}
+.c1{width:104px}.c2{width:88px}.c3{width:72px}
+@keyframes walk{from{transform:translateX(-50px);opacity:0}to{transform:none;opacity:1}}
+.dunes{position:absolute;left:0;bottom:-1px;width:100%;height:78px;fill:var(--sand);z-index:3;display:block}
+
+/* ---------- شريط المدن والاهتمامات ---------- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--sand);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;gap:8px;overflow-x:auto;padding-block:10px}
+.chip{white-space:nowrap;text-decoration:none;color:var(--ink);background:var(--card);
+  border:1px solid var(--line);border-radius:999px;padding:6px 16px;font:inherit;font-weight:500;cursor:pointer}
+.chip:hover,.chip[aria-pressed="true"]{background:var(--accent);color:var(--on);border-color:var(--accent)}
+.interests{max-width:1100px;margin:0 auto;padding-block:18px 0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.interests p{margin:0 0 8px;font-weight:600}
+.interests .row{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ---------- التخطيط ---------- */
+.layout{max-width:1100px;margin:0 auto;padding-block:18px 60px;display:grid;gap:24px;grid-template-columns:minmax(0,1fr);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.city{background:var(--card);border:1px solid var(--line);border-radius:24px;
+  padding:24px 20px;margin-bottom:24px;scroll-margin-top:70px}
+.city h2{font-size:2rem;font-weight:600;margin:0 0 8px;line-height:1.2}
+.pill{display:inline-block;background:var(--dune);font-size:.82rem;border-radius:999px;padding:2px 14px}
+.sum{margin:12px 0 20px;color:var(--muted);max-width:60ch}
+.panels{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:14px;align-items:start}
+.panel{background:var(--sand);border-radius:16px;padding:16px;min-width:0}
+.panel h3{font-size:1.02rem;font-weight:600;margin:0 0 8px}
+ul{list-style:none;margin:0;padding:0}
+li{padding:9px 0;border-top:1px solid var(--line)}
+li strong{font-weight:600}
+li span{display:block;color:var(--muted);font-size:.92rem}
+li .meta{font-size:.82rem}
+.tag{display:inline-block;font-size:.75rem;background:var(--dune);border-radius:999px;padding:1px 9px;margin-inline-start:6px;font-weight:400;color:var(--ink)}
+.book{margin-top:6px;background:var(--accent);color:var(--on);border:0;border-radius:10px;
+  padding:5px 14px;font:inherit;font-size:.85rem;font-weight:600;cursor:pointer}
+
+/* ---------- مزايا إضافية ---------- */
+.themebtn{margin-inline-start:10px;border:1px solid var(--line);background:var(--sand);color:var(--ink);font:inherit;font-weight:500;padding:7px 14px;border-radius:14px;cursor:pointer;vertical-align:middle}
+.tents{position:absolute;bottom:26px;z-index:2;display:flex;align-items:flex-end;gap:6px;color:var(--camel)}
+html[dir="rtl"] .tents{right:3%}
+html[dir="ltr"] .tents{left:3%}
+.tents svg{display:block;height:auto}
+.t1{width:96px}.t2{width:68px}
+.scene{margin:0 0 16px;border-radius:16px;overflow:hidden}
+.scene svg,.scene img{width:100%;height:160px;display:block;object-fit:cover}
+.climate{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.climate span{background:var(--sand);border-radius:999px;padding:3px 12px;font-size:.88rem}
+.climate .avg{background:transparent;color:var(--muted);font-size:.78rem;padding-inline:0}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.photobtn{border:1px dashed var(--line);color:var(--muted);border-radius:999px;padding:3px 12px;font-size:.85rem;cursor:pointer}
+/* ---------- لوحة الحجوزات ---------- */
+.side{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:20px;scroll-margin-top:70px;min-width:0}
+.side h2{font-size:1.3rem;margin:0 0 4px}
+.side h3{font-size:1.05rem;margin:22px 0 6px}
+label{display:block;font-size:.88rem;color:var(--muted);margin-top:10px}
+input,select{width:100%;font:inherit;color:var(--ink);background:var(--sand);border:1.5px solid var(--line);
+  border-radius:11px;padding:9px 10px;margin-top:4px;min-width:0}
+.btn{width:100%;margin-top:14px;background:var(--accent);color:var(--on);border:0;border-radius:12px;
+  padding:11px 16px;font:inherit;font-weight:600;cursor:pointer}
+.total{margin:12px 0 0;font-weight:600}
+#msg{min-height:1.4em;margin:8px 0 0;color:var(--accent);font-size:.92rem}
+#msg.err{color:var(--err)}
+.bk{padding:10px 0;border-top:1px solid var(--line)}
+.bk strong{display:block}
+.ids{font-family:ui-monospace,Consolas,monospace;font-size:.76rem;color:var(--muted);direction:ltr;text-align:start;overflow-wrap:anywhere}
+.st{display:inline-block;font-size:.78rem;background:var(--dune);border-radius:999px;padding:1px 10px;margin-inline-end:8px}
+.cancel{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer}
+.note{color:var(--muted);font-size:.8rem;margin:14px 0 0}
+.fab{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));
+  inset-inline-end:max(16px,env(safe-area-inset-left,0px),env(safe-area-inset-right,0px));z-index:30;
+  background:var(--accent);color:var(--on);text-decoration:none;font-weight:600;border-radius:999px;
+  padding:11px 18px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.credit{text-align:center;color:var(--muted);font-size:.85rem;margin:6px 0 40px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
+
+@media (min-width:980px){
+  .layout{grid-template-columns:minmax(0,1fr) 340px;align-items:start}
+  .side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 64px);max-height:calc(100vh - 84px - env(safe-area-inset-top,0px));overflow:auto}
+  .fab{display:none}
+}
+@media (max-width:420px){
+  h1{font-size:2.1rem}
+  .c1{width:78px}.c2{width:66px}.c3{width:54px}
+  .sun{width:70px;height:70px}
+  .t1{width:70px}.t2{width:50px}
+  .hero{padding-bottom:125px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .caravan{animation:none}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="camel" viewBox="0 0 130 100">
+    <path d="M30 42 C22 46 20 56 23 66" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="58" cy="50" rx="28" ry="14" fill="currentColor"/>
+    <ellipse cx="55" cy="34" rx="12" ry="13" fill="currentColor"/>
+    <path d="M78 46 C90 44 94 30 96 18 L106 20 C104 38 100 56 84 62 Z" fill="currentColor"/>
+    <path d="M96 18 C96 12 104 9 112 12 L120 15 C122 18 118 21 112 21 L104 22 C100 24 96 22 96 18 Z" fill="currentColor"/>
+    <rect x="38" y="58" width="6" height="38" rx="3" fill="currentColor"/>
+    <rect x="48" y="60" width="6" height="36" rx="3" fill="currentColor"/>
+    <rect x="66" y="60" width="6" height="36" rx="3" fill="currentColor"/>
+    <rect x="76" y="58" width="6" height="38" rx="3" fill="currentColor"/>
+  </symbol>
+  <symbol id="tent" viewBox="0 0 120 90">
+    <path d="M60 14 L116 84 L4 84 Z" fill="currentColor"/>
+    <path d="M60 44 L80 84 L40 84 Z" style="fill:var(--dune)"/>
+    <path d="M60 14 V2 L72 6 L60 10" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="ar" aria-pressed="true">العربية</button>
+      <button type="button" data-lang="en" aria-pressed="false">English</button>
+      <button type="button" data-lang="fr" aria-pressed="false">Français</button>
+    </div>
+    <button class="themebtn" id="themeBtn" type="button"></button>
+    <p class="brand" id="brand"></p>
+    <h1 id="title"></h1>
+    <p class="tagline" id="tagline"></p>
+  </div>
+  <span class="sun"></span>
+  <div class="caravan" aria-hidden="true">
+    <svg class="c1" viewBox="0 0 130 100"><use href="#camel"/></svg>
+    <svg class="c2" viewBox="0 0 130 100"><use href="#camel"/></svg>
+    <svg class="c3" viewBox="0 0 130 100"><use href="#camel"/></svg>
+  </div>
+  <div class="tents" aria-hidden="true">
+    <svg class="t1" viewBox="0 0 120 90"><use href="#tent"/></svg>
+    <svg class="t2" viewBox="0 0 120 90"><use href="#tent"/></svg>
+  </div>
+  <svg class="dunes" viewBox="0 0 800 120" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 70 C120 20 220 20 340 62 C460 104 560 96 680 50 C740 28 780 36 800 44 L800 120 L0 120 Z"/>
+  </svg>
+</header>
+
+<nav class="nav" aria-label="Cities"><div class="wrap" id="nav"></div></nav>
+
+<section class="interests">
+  <p data-i18n="interests"></p>
+  <div class="row" id="interestRow"></div>
+</section>
+
+<div class="layout">
+  <main id="cities"></main>
+
+  <aside class="side" id="booking">
+    <h2 data-i18n="bookTitle"></h2>
+    <form id="form" novalidate>
+      <label><span data-i18n="item"></span><select id="item"></select></label>
+      <label><span data-i18n="visit"></span><input type="date" id="visit"></label>
+      <label><span data-i18n="people"></span><input type="number" id="people" min="1" max="50" value="1" inputmode="numeric"></label>
+      <label><span data-i18n="name"></span><input type="text" id="name" autocomplete="name"></label>
+      <label><span data-i18n="email"></span><input type="email" id="email" autocomplete="email"></label>
+      <label><span data-i18n="phone"></span><input type="tel" id="phone" autocomplete="tel"></label>
+      <p class="total" id="total"></p>
+      <button class="btn" type="submit" data-i18n="submit"></button>
+      <p id="msg" role="status"></p>
+    </form>
+    <h3 data-i18n="myBookings"></h3>
+    <div id="bookings"></div>
+    <p class="note" data-i18n="sample"></p>
+  </aside>
+</div>
+
+<p class="credit" id="credit"></p>
+<a class="fab" href="#booking">🎟️ <span id="fabLabel"></span> (<span id="fabN">0</span>)</a>
+<script>
+const L = (ar, en, fr) => ({ar, en, fr});
+
+const UI = {
+  ar: {
+    brand: "ملامح", title: "أهلاً بكم في السعودية",
+    tagline: "اكتشفوا ثقافة كل مدينة وأشهر وجهاتها وفعالياتها واحجزوا جولتكم",
+    interests: "اختاروا اهتمامكم", all: "الكل",
+    places: "أشهر الأماكن السياحية", culture: "الثقافة", events: "الفعاليات", tours: "الجولات",
+    includes: "تشمل", hours: "ساعات", sar: "ر.س", cap: "السعة", book: "احجز",
+    bookTitle: "الحجوزات", item: "الجولة أو الفعالية", choose: "اختاروا...",
+    visit: "تاريخ الزيارة", people: "عدد الأشخاص", name: "الاسم", email: "البريد الإلكتروني", phone: "الجوال",
+    submit: "تأكيد الحجز", total: "الإجمالي", myBookings: "حجوزاتي", none: "لا توجد حجوزات بعد",
+    cancel: "إلغاء", Pending: "قيد المراجعة", Cancelled: "ملغي", fab: "الحجوزات",
+    errFill: "عبّوا كل الحقول بشكل صحيح، وتاريخ الزيارة لا يكون قبل اليوم.",
+    errCap: "المقاعد المتبقية: ", ok: "تم تسجيل الحجز ✅",
+    sample: "الأسعار والسعات والجولات بيانات تجريبية للمشروع.",
+    winter: "يناير", summer: "يوليو", avg: "متوسطات تقريبية", themeDark: "🌙 ليلي", themeLight: "☀️ نهاري", photo: "📷 أضيفي صورة", photoDel: "إزالة الصورة",
+    types: {food: "طعام", craft: "حرف", tradition: "تقاليد", architecture: "عمارة"},
+    credit: "صُمم بواسطة Ghala Alsuhaimy 🌸"
+  },
+  en: {
+    brand: "Malameh", title: "Welcome to Saudi Arabia",
+    tagline: "Discover each city's culture, top places and events, and book your tour",
+    interests: "Pick your interest", all: "All",
+    places: "Top Attractions", culture: "Culture", events: "Events", tours: "Tours",
+    includes: "Includes", hours: "hours", sar: "SAR", cap: "Capacity", book: "Book",
+    bookTitle: "Bookings", item: "Tour or event", choose: "Choose...",
+    visit: "Visit date", people: "Number of people", name: "Name", email: "Email", phone: "Phone",
+    submit: "Confirm booking", total: "Total", myBookings: "My bookings", none: "No bookings yet",
+    cancel: "Cancel", Pending: "Pending", Cancelled: "Cancelled", fab: "Bookings",
+    errFill: "Please fill every field correctly; the visit date cannot be in the past.",
+    errCap: "Seats left: ", ok: "Booking saved ✅",
+    sample: "Prices, capacities and tours are sample data for the project.",
+    winter: "Jan", summer: "Jul", avg: "approx. averages", themeDark: "🌙 Night", themeLight: "☀️ Day", photo: "📷 Add photo", photoDel: "Remove photo",
+    types: {food: "Food", craft: "Craft", tradition: "Tradition", architecture: "Architecture"},
+    credit: "Designed by Ghala Alsuhaimy 🌸"
+  },
+  fr: {
+    brand: "Malameh", title: "Bienvenue en Arabie saoudite",
+    tagline: "Découvrez la culture, les lieux phares et les événements de chaque ville, et réservez votre visite",
+    interests: "Choisissez votre intérêt", all: "Tout",
+    places: "Lieux incontournables", culture: "Culture", events: "Événements", tours: "Visites",
+    includes: "Comprend", hours: "heures", sar: "SAR", cap: "Capacité", book: "Réserver",
+    bookTitle: "Réservations", item: "Visite ou événement", choose: "Choisir...",
+    visit: "Date de visite", people: "Nombre de personnes", name: "Nom", email: "E-mail", phone: "Téléphone",
+    submit: "Confirmer la réservation", total: "Total", myBookings: "Mes réservations", none: "Aucune réservation",
+    cancel: "Annuler", Pending: "En attente", Cancelled: "Annulée", fab: "Réservations",
+    errFill: "Remplissez correctement tous les champs ; la date ne peut pas être passée.",
+    errCap: "Places restantes : ", ok: "Réservation enregistrée ✅",
+    sample: "Les prix, capacités et visites sont des données d'exemple pour le projet.",
+    winter: "Janv.", summer: "Juil.", avg: "moyennes approx.", themeDark: "🌙 Nuit", themeLight: "☀️ Jour", photo: "📷 Ajouter une photo", photoDel: "Retirer la photo",
+    types: {food: "Cuisine", craft: "Artisanat", tradition: "Tradition", architecture: "Architecture"},
+    credit: "Conçu par Ghala Alsuhaimy 🌸"
+  }
+};
+
+const ICONS = {food: "🍛", craft: "🧵", tradition: "🥁", architecture: "🏛️"};
+
+const INTERESTS = [
+  {id: 1, name: L("تراث", "Heritage", "Patrimoine")},
+  {id: 2, name: L("طبيعة", "Nature", "Nature")},
+  {id: 3, name: L("طعام", "Food", "Gastronomie")},
+  {id: 4, name: L("فنون وثقافة", "Arts & Culture", "Arts et culture")},
+  {id: 5, name: L("مغامرة", "Adventure", "Aventure")}
+];
+
+const CITIES = [
+  {id: 1, tags: [1, 3, 4],
+   name: L("الرياض", "Riyadh", "Riyad"),
+   region: L("منطقة الرياض", "Riyadh Region", "Région de Riyad"),
+   summary: L("قلب نجد، تشتهر بالعمارة الطينية النجدية وفنون العرضة.",
+     "The heart of Najd, known for Najdi mud-brick architecture and the Ardah folk dance.",
+     "Cœur du Najd, réputée pour son architecture en briques de terre et la danse folklorique de l'Ardah."),
+   places: [
+     {name: L("حي الطريف بالدرعية", "At-Turaif District, Diriyah", "Quartier d'At-Turaif, Diriyah"),
+      desc: L("مهد الدولة السعودية الأولى.", "The birthplace of the first Saudi state.", "Berceau du premier État saoudien.")}
+   ],
+   culture: [
+     {type: "food", name: L("الكبسة", "Kabsa", "Kabsa"),
+      desc: L("طبق أرز ولحم أو دجاج بالبهارات.", "Spiced rice with meat or chicken.", "Riz épicé avec de la viande ou du poulet.")},
+     {type: "tradition", name: L("العرضة النجدية", "Najdi Ardah", "Ardah najdie"),
+      desc: L("فن شعبي يؤدى بالسيوف والطبول.", "A folk performance with swords and drums.", "Une danse folklorique avec épées et tambours.")}
+   ]},
+  {id: 2, tags: [1, 2, 5],
+   name: L("العلا", "AlUla", "AlUla"),
+   region: L("منطقة المدينة المنورة", "Madinah Region", "Région de Médine"),
+   summary: L("موطن حضارات قديمة، وفيها الحِجر أول موقع سعودي في قائمة اليونسكو للتراث العالمي.",
+     "Home to ancient civilizations, with Hegra, the first Saudi site on the UNESCO World Heritage List.",
+     "Terre de civilisations anciennes, avec Hégra, premier site saoudien inscrit au patrimoine mondial de l'UNESCO."),
+   places: [
+     {name: L("الحِجر", "Hegra", "Hégra"),
+      desc: L("موقع أثري نبطي مسجل في اليونسكو.", "A Nabataean archaeological site listed by UNESCO.", "Un site archéologique nabatéen classé par l'UNESCO.")},
+     {name: L("جبل الفيل", "Elephant Rock", "Rocher de l'Éléphant"),
+      desc: L("تكوين صخري مشهور في العلا.", "A famous rock formation in AlUla.", "Une célèbre formation rocheuse d'AlUla.")}
+   ],
+   culture: [
+     {type: "architecture", name: L("المقابر النبطية", "Nabataean Tombs", "Tombes nabatéennes"),
+      desc: L("مقابر منحوتة في الصخر.", "Tombs carved into the rock.", "Tombes sculptées dans la roche.")}
+   ]},
+  {id: 3, tags: [1, 3, 4],
+   name: L("جدة", "Jeddah", "Djeddah"),
+   region: L("منطقة مكة المكرمة", "Makkah Region", "Région de La Mecque"),
+   summary: L("بوابة الحرمين على البحر الأحمر، وتشتهر بالرواشين والطابع الحجازي.",
+     "The gateway to the Two Holy Mosques on the Red Sea, known for roshan windows and Hijazi character.",
+     "Porte des Deux Saintes Mosquées sur la mer Rouge, connue pour ses moucharabiehs et son caractère hijazi."),
+   places: [
+     {name: L("جدة التاريخية", "Al-Balad (Historic Jeddah)", "Al-Balad (Djeddah historique)"),
+      desc: L("حي تاريخي بمبانٍ تقليدية ورواشين خشبية.", "A historic district of traditional buildings with wooden roshan windows.", "Un quartier historique aux bâtiments traditionnels et aux moucharabiehs en bois.")},
+     {name: L("كورنيش جدة", "Jeddah Corniche", "Corniche de Djeddah"),
+      desc: L("واجهة بحرية للمشي والترفيه.", "A seafront for walks and leisure.", "Un front de mer pour la promenade et les loisirs.")}
+   ],
+   culture: [
+     {type: "architecture", name: L("الرواشين", "Roshan Windows", "Moucharabiehs (Roshan)"),
+      desc: L("نوافذ خشبية مزخرفة تميز البيوت الحجازية.", "Ornate wooden windows that mark Hijazi houses.", "Fenêtres en bois ouvragé caractéristiques des maisons hijazies.")}
+   ]},
+  {id: 4, tags: [1, 2, 5],
+   name: L("أبها", "Abha", "Abha"),
+   region: L("منطقة عسير", "Asir Region", "Région d'Asir"),
+   summary: L("مدينة الجبال والضباب، وتشتهر بفن القط العسيري والعمارة الجبلية.",
+     "A city of mountains and mist, known for Al-Qatt Al-Asiri art and mountain architecture.",
+     "Ville de montagnes et de brume, connue pour l'art Al-Qatt Al-Asiri et son architecture de montagne."),
+   places: [
+     {name: L("قرية رجال ألمع", "Rijal Almaa Village", "Village de Rijal Almaa"),
+      desc: L("قرية تراثية بمبانٍ حجرية ملونة.", "A heritage village of colorful stone buildings.", "Un village patrimonial aux bâtiments de pierre colorés.")},
+     {name: L("منتزه السودة", "Al-Soudah Park", "Parc d'Al-Soudah"),
+      desc: L("أجواء جبلية باردة وإطلالات عالية.", "Cool mountain air and high-altitude views.", "Air frais de montagne et vues en altitude.")}
+   ],
+   culture: [
+     {type: "craft", name: L("القط العسيري", "Al-Qatt Al-Asiri", "Al-Qatt Al-Asiri"),
+      desc: L("فن زخرفة الجدران بألوان زاهية.", "The art of decorating walls in bright colors.", "L'art de décorer les murs de couleurs vives.")}
+   ]},
+  {id: 5, tags: [1, 2, 3],
+   name: L("الأحساء", "Al-Ahsa", "Al-Ahsa"),
+   region: L("المنطقة الشرقية", "Eastern Province", "Province de l'Est"),
+   summary: L("تضم واحدة من أكبر واحات النخيل في العالم، وتشتهر بالتمور والبشوت.",
+     "Home to one of the world's largest palm oases, known for dates and bishts.",
+     "Abrite l'une des plus grandes oasis de palmiers du monde, réputée pour ses dattes et ses bishts."),
+   places: [
+     {name: L("واحة الأحساء", "Al-Ahsa Oasis", "Oasis d'Al-Ahsa"),
+      desc: L("واحة نخيل ضخمة مسجلة في اليونسكو.", "A vast palm oasis listed by UNESCO.", "Une vaste oasis de palmiers classée par l'UNESCO.")}
+   ],
+   culture: [
+     {type: "craft", name: L("البشت الأحسائي", "Al-Ahsa Bisht", "Bisht d'Al-Ahsa"),
+      desc: L("عباءة رجالية مطرزة تشتهر بها الأحساء.", "An embroidered men's cloak Al-Ahsa is famous for.", "Une cape d'homme brodée dont Al-Ahsa est célèbre.")}
+   ]},
+  {id: 6, tags: [2, 3, 4],
+   name: L("الطائف", "Taif", "Taëf"),
+   region: L("منطقة مكة المكرمة", "Makkah Region", "Région de La Mecque"),
+   summary: L("عاصمة الصيف في المملكة ومدينة الورد، بجبالها ومناخها اللطيف.",
+     "The Kingdom's summer capital and the City of Roses, with cool mountains and a gentle climate.",
+     "Capitale estivale du Royaume et ville des roses, aux montagnes fraîches et au climat doux."),
+   places: [
+     {name: L("قصر شبرا", "Shubra Palace", "Palais Shubra"),
+      desc: L("قصر تاريخي تحول إلى متحف، بنوافذه الخشبية الكثيرة.", "A historic palace turned museum, known for its many wooden windows.", "Un palais historique devenu musée, connu pour ses nombreuses fenêtres en bois.")},
+     {name: L("سوق عكاظ", "Souq Okaz", "Souq Okaz"),
+      desc: L("سوق تاريخي من عصور ما قبل الإسلام يُحيى اليوم ثقافياً.", "A historic pre-Islamic market revived today as a cultural venue.", "Un marché historique préislamique aujourd'hui revisité comme lieu culturel.")},
+     {name: L("الهدا", "Al Hada", "Al Hada"),
+      desc: L("منطقة جبلية بمزارع الورد وتلفريك بإطلالات رائعة.", "A mountain area with rose farms and a cable car with great views.", "Une zone montagneuse avec des fermes de roses et un téléphérique aux vues superbes.")}
+   ],
+   culture: [
+     {type: "craft", name: L("ماء الورد الطائفي", "Taif Rose Water", "Eau de rose de Taëf"),
+      desc: L("يُستخلص من الورد الطائفي في موسم القطاف.", "Distilled from Taif roses during the harvest season.", "Distillée à partir des roses de Taëf pendant la saison de récolte.")},
+     {type: "tradition", name: L("التعشير", "Al Ta'sheer", "Al Ta'sheer"),
+      desc: L("رقصة شعبية بالنار مرتبطة بالطائف.", "A folk fire dance associated with Taif.", "Une danse folklorique du feu associée à Taëf.")}
+   ]},
+  {id: 7, tags: [1, 2, 5],
+   name: L("تبوك", "Tabuk", "Tabuk"),
+   region: L("منطقة تبوك", "Tabuk Region", "Région de Tabuk"),
+   summary: L("بوابة الشمال الغربي، تجمع التاريخ والطبيعة وسواحل البحر الأحمر.",
+     "The gateway to the northwest, blending history, nature and Red Sea coastline.",
+     "Porte du nord-ouest, mêlant histoire, nature et littoral de la mer Rouge."),
+   places: [
+     {name: L("قلعة تبوك", "Tabuk Castle", "Château de Tabuk"),
+      desc: L("قلعة عثمانية فيها متحف يروي تاريخ المنطقة.", "An Ottoman castle with a museum on the region's history.", "Un château ottoman abritant un musée sur l'histoire de la région.")},
+     {name: L("وادي ديسة", "Wadi Disah", "Wadi Disah"),
+      desc: L("وادٍ جبلي بين المنحدرات الرملية والنخيل والجداول.", "A mountain valley of sandstone cliffs, palms and streams.", "Une vallée de montagne entre falaises de grès, palmiers et ruisseaux.")},
+     {name: L("محطة سكة حديد الحجاز", "Hejaz Railway Station", "Gare du chemin de fer du Hedjaz"),
+      desc: L("محطة تاريخية على خط سكة الحجاز.", "A historic station on the Hejaz Railway.", "Une gare historique du chemin de fer du Hedjaz.")}
+   ],
+   culture: [
+     {type: "craft", name: L("المشغولات البدوية", "Bedouin Crafts", "Artisanat bédouin"),
+      desc: L("حُلي فضية وحرف يدوية تُباع في أسواق المدينة.", "Silver jewelry and handicrafts sold in the city's bazaars.", "Bijoux en argent et objets artisanaux vendus dans les bazars de la ville.")}
+   ]}
+];
+
+const EVENTS = [
+  {id: 1, city: 1, price: 60, cap: 200, name: L("موسم الرياض", "Riyadh Season", "Saison de Riyad"),
+   desc: L("موسم ترفيهي وثقافي كبير.", "A major entertainment and cultural season.", "Une grande saison de divertissement et de culture.")},
+  {id: 2, city: 2, price: 80, cap: 150, name: L("شتاء طنطورة", "Winter at Tantora", "Hiver à Tantora"),
+   desc: L("مهرجان ثقافي وفني في العلا.", "A cultural and arts festival in AlUla.", "Un festival culturel et artistique à AlUla.")},
+  {id: 3, city: 3, price: 50, cap: 200, name: L("موسم جدة", "Jeddah Season", "Saison de Djeddah"),
+   desc: L("فعاليات ترفيهية وثقافية.", "Entertainment and cultural events.", "Événements de divertissement et de culture.")},
+  {id: 4, city: 4, price: 40, cap: 200, name: L("صيف عسير", "Aseer Summer Season", "Saison d'été d'Aseer"),
+   desc: L("موسم صيفي سنوي بين الجبال فيه حفلات وأسواق وأنشطة مغامرة.", "An annual mountain summer season with concerts, markets and adventure activities.", "Une saison estivale annuelle en montagne avec concerts, marchés et activités d'aventure.")},
+  {id: 5, city: 5, price: 30, cap: 300, name: L("مهرجان تمور الأحساء", "Al-Ahsa Dates Festival", "Festival des dattes d'Al-Ahsa"),
+   desc: L("مهرجان سنوي يحتفي بتمور الأحساء المشهورة.", "An annual festival celebrating Al-Ahsa's famous dates.", "Un festival annuel célébrant les célèbres dattes d'Al-Ahsa.")},
+  {id: 6, city: 6, price: 30, cap: 300, name: L("مهرجان الورد الطائفي", "Taif Rose Festival", "Festival de la rose de Taëf"),
+   desc: L("مهرجان سنوي في الربيع يحتفي بالورد الطائفي.", "An annual spring festival celebrating the Taif rose.", "Un festival annuel de printemps célébrant la rose de Taëf.")},
+  {id: 7, city: 6, price: 50, cap: 250, name: L("موسم الطائف", "Taif Season", "Saison de Taëf"),
+   desc: L("موسم سنوي بفعاليات متنوعة يضم سوق عكاظ.", "An annual season of varied events that includes Souq Okaz.", "Une saison annuelle d'événements variés incluant Souq Okaz.")},
+  {id: 8, city: 7, price: 35, cap: 250, name: L("مهرجان تبوك الصيفي", "Tabuk Summer Festival", "Festival d'été de Tabuk"),
+   desc: L("مهرجان صيفي سنوي بفعاليات ثقافية وترفيهية.", "An annual summer festival of cultural and entertainment events.", "Un festival d'été annuel d'événements culturels et de loisirs.")}
+];
+
+const TOURS = [
+  {id: 1, city: 1, hours: 3, price: 150, cap: 20, inc: [0], name: L("جولة الدرعية التراثية", "Diriyah Heritage Tour", "Visite patrimoniale de Diriyah")},
+  {id: 2, city: 2, hours: 5, price: 450, cap: 15, inc: [0, 1], name: L("جولة الحِجر وجبل الفيل", "Hegra & Elephant Rock Tour", "Visite d'Hégra et du Rocher de l'Éléphant")},
+  {id: 3, city: 3, hours: 3, price: 120, cap: 25, inc: [0], name: L("جولة جدة التاريخية", "Al-Balad Walking Tour", "Visite à pied d'Al-Balad")},
+  {id: 4, city: 4, hours: 6, price: 300, cap: 12, inc: [0, 1], name: L("جولة رجال ألمع والسودة", "Rijal Almaa & Soudah Tour", "Visite de Rijal Almaa et d'Al-Soudah")},
+  {id: 5, city: 5, hours: 4, price: 180, cap: 20, inc: [0], name: L("جولة واحة الأحساء", "Al-Ahsa Oasis Tour", "Visite de l'oasis d'Al-Ahsa")},
+  {id: 6, city: 6, hours: 4, price: 140, cap: 18, inc: [0], name: L("جولة قصر شبرا والورد", "Shubra Palace & Roses Tour", "Visite du palais Shubra et des roses")},
+  {id: 7, city: 7, hours: 7, price: 350, cap: 14, inc: [0, 1], name: L("جولة قلعة تبوك ووادي ديسة", "Tabuk Castle & Wadi Disah Tour", "Visite du château de Tabuk et de Wadi Disah")}
+];
+CITIES.push(
+  {id: 8, tags: [1, 2, 5],
+   name: L("حائل", "Hail", "Haïl"),
+   region: L("منطقة حائل", "Hail Region", "Région de Haïl"),
+   summary: L("مدينة شمالية بين جبلي أجا وسلمى ورمال النفود، تشتهر بالكرم والفن الصخري.",
+     "A northern city between the Aja and Salma mountains and the Nafud sands, known for hospitality and rock art.",
+     "Ville du nord entre les monts Aja et Salma et les sables du Nafoud, réputée pour son hospitalité et son art rupestre."),
+   places: [
+     {name: L("الفن الصخري في جبة", "Jubbah Rock Art", "Art rupestre de Jubbah"),
+      desc: L("نقوش صخرية قديمة مسجلة في اليونسكو.", "Ancient rock carvings listed by UNESCO.", "Anciennes gravures rupestres classées par l'UNESCO.")},
+     {name: L("قلعة أعيرف", "Aarif Fort", "Fort d'Aarif"),
+      desc: L("قلعة تاريخية تطل على المدينة.", "A historic fort overlooking the city.", "Un fort historique dominant la ville.")}
+   ],
+   culture: [
+     {type: "tradition", name: L("الضيافة والقهوة العربية", "Hospitality & Arabic Coffee", "Hospitalité et café arabe"),
+      desc: L("اشتهرت حائل بالكرم وصب القهوة للضيوف.", "Hail is famed for generosity and pouring coffee for guests.", "Haïl est célèbre pour sa générosité et son café servi aux invités.")}
+   ]},
+  {id: 9, tags: [2, 3, 5],
+   name: L("جازان", "Jazan", "Jazan"),
+   region: L("منطقة جازان", "Jazan Region", "Région de Jazan"),
+   summary: L("مدينة ساحلية جنوبية بجزر فرسان وجبال خضراء ومحاصيل القهوة.",
+     "A southern coastal city with the Farasan Islands, green mountains and coffee farms.",
+     "Ville côtière du sud avec les îles Farasan, des montagnes vertes et des plantations de café."),
+   places: [
+     {name: L("جزر فرسان", "Farasan Islands", "Îles Farasan"),
+      desc: L("جزر في البحر الأحمر بشواطئ ومحمية طبيعية.", "Red Sea islands with beaches and a nature reserve.", "Îles de la mer Rouge avec plages et réserve naturelle.")},
+     {name: L("كورنيش جازان", "Jazan Corniche", "Corniche de Jazan"),
+      desc: L("واجهة بحرية للتنزه.", "A seafront promenade.", "Une promenade en bord de mer.")}
+   ],
+   culture: [
+     {type: "food", name: L("القهوة الخولانية", "Khawlani Coffee", "Café Khawlani"),
+      desc: L("قهوة تُزرع في جبال جازان.", "Coffee grown in the Jazan mountains.", "Café cultivé dans les montagnes de Jazan.")},
+     {type: "tradition", name: L("رجال الفل", "Flower Men", "Hommes aux fleurs"),
+      desc: L("تقليد التزيّن بتيجان الفل والريحان.", "The tradition of wearing jasmine and basil crowns.", "La tradition de porter des couronnes de jasmin et de basilic.")}
+   ]},
+  {id: 10, tags: [1, 2, 3],
+   name: L("الباحة", "Al-Baha", "Al-Baha"),
+   region: L("منطقة الباحة", "Al-Baha Region", "Région d'Al-Baha"),
+   summary: L("مدينة جبلية خضراء بقرى حجرية قديمة وعسل السدر.",
+     "A green mountain city of old stone villages and sidr honey.",
+     "Ville de montagne verdoyante aux anciens villages de pierre et au miel de sidr."),
+   places: [
+     {name: L("قرية ذي عين", "Dhee Ain Village", "Village de Dhee Ain"),
+      desc: L("قرية أثرية من الحجر الرخامي فوق جبل.", "A heritage village of marble stone on a hill.", "Un village patrimonial en pierre de marbre sur une colline.")},
+     {name: L("غابة رغدان", "Raghadan Forest Park", "Parc forestier de Raghadan"),
+      desc: L("غابة جبلية للتنزه والتخييم.", "A mountain forest for walks and camping.", "Une forêt de montagne pour la balade et le camping.")}
+   ],
+   culture: [
+     {type: "food", name: L("عسل السدر", "Sidr Honey", "Miel de sidr"),
+      desc: L("عسل جبلي مشهور في الباحة.", "A mountain honey famous in Al-Baha.", "Un miel de montagne célèbre à Al-Baha.")},
+     {type: "architecture", name: L("القرى الحجرية", "Stone Villages", "Villages de pierre"),
+      desc: L("بيوت حجرية على قمم الجبال.", "Stone houses on the mountaintops.", "Maisons de pierre sur les sommets.")}
+   ]},
+  {id: 11, tags: [1, 3, 2],
+   name: L("ينبع", "Yanbu", "Yanbu"),
+   region: L("منطقة المدينة المنورة", "Madinah Region", "Région de Médine"),
+   summary: L("مدينة ساحلية على البحر الأحمر بحي قديم من الحجر المرجاني ومأكولات بحرية.",
+     "A Red Sea port city with an old coral-stone quarter and fresh seafood.",
+     "Ville portuaire de la mer Rouge avec un vieux quartier en pierre corallienne et des fruits de mer frais."),
+   places: [
+     {name: L("ينبع البلد", "Yanbu Old Town", "Vieille ville de Yanbu"),
+      desc: L("بيوت قديمة من الحجر المرجاني.", "Old houses built of coral stone.", "Anciennes maisons en pierre corallienne.")},
+     {name: L("كورنيش ينبع", "Yanbu Corniche", "Corniche de Yanbu"),
+      desc: L("واجهة بحرية للمشي وركوب القوارب.", "A seafront for walks and boat rides.", "Un front de mer pour la marche et les sorties en bateau.")}
+   ],
+   culture: [
+     {type: "food", name: L("المأكولات البحرية", "Red Sea Seafood", "Fruits de mer de la mer Rouge"),
+      desc: L("أسماك طازجة بطرق ساحلية تقليدية.", "Fresh fish cooked the traditional coastal way.", "Poisson frais cuisiné à la façon côtière traditionnelle.")}
+   ]}
+);
+EVENTS.push(
+  {id: 9, city: 8, price: 45, cap: 200, name: L("موسم حائل", "Hail Season", "Saison de Haïl"),
+   desc: L("فعاليات ثقافية وترفيهية ومغامرات صحراوية.", "Cultural, entertainment and desert adventure events.", "Événements culturels, de loisirs et d'aventure dans le désert.")},
+  {id: 10, city: 9, price: 35, cap: 250, name: L("موسم جازان", "Jazan Season", "Saison de Jazan"),
+   desc: L("فعاليات ساحلية وثقافية.", "Coastal and cultural events.", "Événements côtiers et culturels.")},
+  {id: 11, city: 10, price: 40, cap: 200, name: L("صيف الباحة", "Al-Baha Summer Season", "Saison d'été d'Al-Baha"),
+   desc: L("موسم صيفي بين الجبال والغابات.", "A summer season among mountains and forests.", "Une saison estivale entre montagnes et forêts.")},
+  {id: 12, city: 11, price: 30, cap: 300, name: L("مهرجان ينبع للورد", "Yanbu Flower Festival", "Festival des fleurs de Yanbu"),
+   desc: L("مهرجان سنوي للزهور والحدائق.", "An annual festival of flowers and gardens.", "Un festival annuel de fleurs et de jardins.")}
+);
+TOURS.push(
+  {id: 8, city: 8, hours: 6, price: 320, cap: 12, inc: [0, 1], name: L("جولة جبة وقلعة أعيرف", "Jubbah & Aarif Fort Tour", "Visite de Jubbah et du fort d'Aarif")},
+  {id: 9, city: 9, hours: 8, price: 400, cap: 12, inc: [0], name: L("جولة جزر فرسان", "Farasan Islands Tour", "Visite des îles Farasan")},
+  {id: 10, city: 10, hours: 5, price: 230, cap: 15, inc: [0, 1], name: L("جولة ذي عين ورغدان", "Dhee Ain & Raghadan Tour", "Visite de Dhee Ain et de Raghadan")},
+  {id: 11, city: 11, hours: 3, price: 130, cap: 20, inc: [0], name: L("جولة ينبع البلد", "Yanbu Old Town Tour", "Visite de la vieille ville de Yanbu")}
+);
+
+/* متوسطات حرارة تقريبية (°C): [العظمى, الصغرى] في يناير ويوليو */
+const CLIMATE = {
+  1: {jan: [21, 8], jul: [43, 28]}, 2: {jan: [22, 6], jul: [40, 24]}, 3: {jan: [29, 19], jul: [38, 28]},
+  4: {jan: [21, 7], jul: [28, 16]}, 5: {jan: [21, 9], jul: [44, 29]}, 6: {jan: [22, 9], jul: [34, 20]},
+  7: {jan: [18, 5], jul: [38, 22]}, 8: {jan: [17, 4], jul: [39, 22]}, 9: {jan: [30, 22], jul: [38, 29]},
+  10: {jan: [22, 8], jul: [31, 19]}, 11: {jan: [27, 17], jul: [38, 27]}
+};
+const SCENE = {1: "tower", 2: "rocks", 3: "building", 4: "mountain", 5: "palms", 6: "mountain",
+  7: "castle", 8: "rocks", 9: "sea", 10: "mountain", 11: "sea"};
+const LAND = {
+  tower: '<path d="M190 130 V40 L200 26 L210 40 V130 Z" fill="currentColor"/><rect x="214" y="70" width="14" height="60" fill="currentColor"/><rect x="172" y="86" width="14" height="44" fill="currentColor"/>',
+  rocks: '<path d="M150 130 C150 90 165 70 185 72 C195 55 215 55 225 72 C245 70 260 95 258 130 Z" fill="currentColor"/><rect x="196" y="96" width="14" height="34" rx="3" style="fill:var(--dune)"/>',
+  building: '<rect x="160" y="58" width="80" height="72" fill="currentColor"/><rect x="170" y="70" width="14" height="20" style="fill:var(--dune)"/><rect x="193" y="70" width="14" height="20" style="fill:var(--dune)"/><rect x="216" y="70" width="14" height="20" style="fill:var(--dune)"/><rect x="170" y="98" width="14" height="20" style="fill:var(--dune)"/><rect x="216" y="98" width="14" height="20" style="fill:var(--dune)"/>',
+  mountain: '<path d="M110 130 L180 52 L215 95 L250 62 L310 130 Z" fill="currentColor"/>',
+  palms: '<g fill="currentColor"><rect x="168" y="72" width="5" height="58"/><ellipse cx="170" cy="68" rx="24" ry="9"/><rect x="208" y="56" width="5" height="74"/><ellipse cx="210" cy="52" rx="28" ry="10"/><rect x="246" y="80" width="5" height="50"/><ellipse cx="248" cy="76" rx="22" ry="8"/></g>',
+  castle: '<g fill="currentColor"><rect x="150" y="84" width="100" height="46"/><rect x="150" y="60" width="24" height="70"/><rect x="226" y="60" width="24" height="70"/><rect x="150" y="52" width="7" height="8"/><rect x="167" y="52" width="7" height="8"/><rect x="226" y="52" width="7" height="8"/><rect x="243" y="52" width="7" height="8"/></g><rect x="193" y="104" width="14" height="26" rx="7" style="fill:var(--dune)"/>',
+  sea: '<path d="M0 118 C40 108 80 128 120 118 S200 108 240 118 S320 128 360 118 S400 108 400 118 V150 H0 Z" style="fill:var(--accent);opacity:.35"/><path d="M210 112 L210 56 L252 108 Z" fill="currentColor"/><path d="M198 114 H262 L250 126 H212 Z" fill="currentColor"/>'
+};
+let S = {bookings: [], users: [], nextBooking: 1001, nextUser: 1, interest: 0};
+try { const raw = localStorage.getItem("malameh_state"); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch (e) {}
+S.photos = S.photos || {};
+try { const th = localStorage.getItem("malameh_theme"); if (th) document.documentElement.setAttribute("data-theme", th); } catch (e) {}
+const save = () => { try { localStorage.setItem("malameh_state", JSON.stringify(S)); } catch (e) {} };
+
+let lang = "ar";
+let filter = S.interest || 0;
+const $ = id => document.getElementById(id);
+const t = k => UI[lang][k];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sep = () => lang === "ar" ? "، " : ", ";
+const cityName = id => CITIES.find(c => c.id === id).name[lang];
+
+function findItem(v){
+  if(!v) return null;
+  const kind = v[0], id = +v.slice(1);
+  const obj = (kind === "T" ? TOURS : EVENTS).find(x => x.id === id);
+  return obj ? {kind, obj} : null;
+}
+const booked = (kind, id) => S.bookings
+  .filter(b => b.status !== "Cancelled" && (kind === "T" ? b.tourId === id : b.eventId === id))
+  .reduce((n, b) => n + b.people, 0);
+
+function panel(icon, title, items){
+  return `<div class="panel"><h3>${icon} ${title}</h3><ul>${items.join("")}</ul></div>`;
+}
+
+function curTheme(){
+  const a = document.documentElement.getAttribute("data-theme");
+  if(a) return a;
+  return window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+function sceneHTML(c){
+  const photo = S.photos[c.id];
+  if(photo) return `<img src="${photo}" alt="${esc(c.name[lang])}">`;
+  return `<svg viewBox="0 0 400 150" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${esc(c.name[lang])}" style="color:var(--camel)">
+    <rect width="400" height="150" style="fill:var(--dune)"/>
+    <circle cx="316" cy="46" r="22" style="fill:var(--accent)"/>
+    <path d="M0 118 C80 100 140 112 220 120 C300 128 350 108 400 114 V150 H0 Z" style="fill:var(--sand)"/>
+    ${LAND[SCENE[c.id]]}
+    <use href="#tent" x="24" y="84" width="72" height="54"/>
+    <use href="#tent" x="316" y="96" width="50" height="38"/>
+  </svg>`;
+}
+
+function climateHTML(c){
+  const k = CLIMATE[c.id];
+  const f = a => `<bdi>${a[0]}° / ${a[1]}°C</bdi>`;
+  return `<div class="climate"><span>❄️ ${t("winter")} ${f(k.jan)}</span><span>☀️ ${t("summer")} ${f(k.jul)}</span><span class="avg">${t("avg")}</span></div>`;
+}
+
+function cityHTML(c){
+  const places = c.places.map(p =>
+    `<li><strong>${p.name[lang]}</strong><span>${p.desc[lang]}</span></li>`);
+  const culture = c.culture.map(x =>
+    `<li><strong>${ICONS[x.type]} ${x.name[lang]}<span class="tag">${t("types")[x.type]}</span></strong><span>${x.desc[lang]}</span></li>`);
+  const events = EVENTS.filter(e => e.city === c.id).map(e =>
+    `<li><strong>${e.name[lang]}</strong><span>${e.desc[lang]}</span>
+      <span class="meta">${e.price} ${t("sar")} · ${t("cap")} ${e.cap}</span>
+      <button class="book" type="button" data-book="E${e.id}">${t("book")}</button></li>`);
+  const tours = TOURS.filter(x => x.city === c.id).map(x =>
+    `<li><strong>${x.name[lang]}</strong>
+      <span>${t("includes")}: ${x.inc.map(i => c.places[i].name[lang]).join(sep())}</span>
+      <span class="meta">${x.hours} ${t("hours")} · ${x.price} ${t("sar")} · ${t("cap")} ${x.cap}</span>
+      <button class="book" type="button" data-book="T${x.id}">${t("book")}</button></li>`);
+  return `
+    <section class="city" id="city-${c.id}">
+      <div class="scene">${sceneHTML(c)}</div>
+      <h2>${c.name[lang]}</h2>
+      <span class="pill">${c.region[lang]}</span>
+      ${climateHTML(c)}
+      <div class="tools"><label class="photobtn">${t("photo")}<input type="file" accept="image/*" data-photo="${c.id}" hidden></label>${S.photos[c.id] ? `<button class="cancel" type="button" data-photodel="${c.id}">${t("photoDel")}</button>` : ""}</div>
+      <p class="sum">${c.summary[lang]}</p>
+      <div class="panels">
+        ${panel("📍", t("places"), places)}
+        ${panel("🌿", t("culture"), culture)}
+        ${panel("🎉", t("events"), events)}
+        ${panel("🧭", t("tours"), tours)}
+      </div>
+    </section>`;
+}
+
+function buildItems(){
+  const sel = $("item"), cur = sel.value;
+  sel.innerHTML = `<option value="">${t("choose")}</option>` +
+    `<optgroup label="${t("tours")}">` +
+      TOURS.map(x => `<option value="T${x.id}">${cityName(x.city)} — ${x.name[lang]}</option>`).join("") +
+    `</optgroup><optgroup label="${t("events")}">` +
+      EVENTS.map(x => `<option value="E${x.id}">${cityName(x.city)} — ${x.name[lang]}</option>`).join("") +
+    `</optgroup>`;
+  sel.value = cur;
+}
+
+function updateTotal(){
+  const it = findItem($("item").value), n = parseInt($("people").value, 10);
+  $("total").textContent = it && n > 0 ? `${t("total")}: ${it.obj.price * n} ${t("sar")}` : "";
+}
+
+function renderBookings(){
+  const list = S.bookings.slice().reverse();
+  $("fabN").textContent = S.bookings.filter(b => b.status !== "Cancelled").length;
+  if(!list.length){ $("bookings").innerHTML = `<p class="note">${t("none")}</p>`; return; }
+  $("bookings").innerHTML = list.map(b => {
+    const it = findItem(b.tourId ? "T" + b.tourId : "E" + b.eventId);
+    const u = S.users.find(x => x.id === b.userId) || {name: ""};
+    return `<div class="bk">
+      <strong>${it ? it.obj.name[lang] : ""}</strong>
+      <span class="st">${t(b.status)}</span>${b.visitDate} · ${b.people} 👥 · ${esc(u.name)}
+      <div class="ids">Booking_ID ${b.id} | User_ID ${b.userId} | Tour_ID ${b.tourId ?? "NULL"} | Event_ID ${b.eventId ?? "NULL"} | Booking_Date ${b.bookingDate} | Status ${b.status}</div>
+      ${b.status !== "Cancelled" ? `<button class="cancel" type="button" data-cancel="${b.id}">${t("cancel")}</button>` : ""}
+    </div>`;
+  }).join("");
+}
+
+function render(){
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.title = t("brand");
+  $("brand").textContent = t("brand");
+  $("title").textContent = t("title");
+  $("tagline").textContent = t("tagline");
+  $("credit").textContent = t("credit");
+  $("fabLabel").textContent = t("fab");
+  $("themeBtn").textContent = curTheme() === "dark" ? t("themeLight") : t("themeDark");
+  document.querySelectorAll("[data-i18n]").forEach(e => e.textContent = t(e.dataset.i18n));
+  document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+
+  $("interestRow").innerHTML =
+    `<button class="chip" type="button" data-int="0" aria-pressed="${filter === 0}">${t("all")}</button>` +
+    INTERESTS.map(i => `<button class="chip" type="button" data-int="${i.id}" aria-pressed="${filter === i.id}">${i.name[lang]}</button>`).join("");
+
+  const shown = CITIES.filter(c => !filter || c.tags.includes(filter));
+  $("nav").innerHTML = shown.map(c => `<a class="chip" href="#city-${c.id}">${c.name[lang]}</a>`).join("");
+  $("cities").innerHTML = shown.map(cityHTML).join("");
+
+  buildItems();
+  updateTotal();
+  renderBookings();
+}
+
+function say(text, isErr){
+  const m = $("msg"); m.textContent = text; m.className = isErr ? "err" : "";
+}
+
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[href^="#"]');
+  if(a){
+    e.preventDefault();
+    const el = $(a.getAttribute("href").slice(1));
+    if(el) el.scrollIntoView({behavior: "smooth", block: "start"});
+    return;
+  }
+  const lb = e.target.closest(".lang button");
+  if(lb){ lang = lb.dataset.lang; render(); return; }
+  const ib = e.target.closest("[data-int]");
+  if(ib){ filter = +ib.dataset.int; S.interest = filter; save(); render(); return; }
+  const bk = e.target.closest("[data-book]");
+  if(bk){
+    $("item").value = bk.dataset.book; updateTotal(); say("", false);
+    $("booking").scrollIntoView({behavior: "smooth", block: "start"});
+    setTimeout(() => $("visit").focus({preventScroll: true}), 400);
+    return;
+  }
+  if(e.target.closest("#themeBtn")){
+    const n = curTheme() === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", n);
+    try { localStorage.setItem("malameh_theme", n); } catch (er) {}
+    $("themeBtn").textContent = n === "dark" ? t("themeLight") : t("themeDark");
+    return;
+  }
+  const pd = e.target.closest("[data-photodel]");
+  if(pd){ delete S.photos[pd.dataset.photodel]; save(); const y = scrollY; render(); scrollTo(0, y); return; }
+  const cb = e.target.closest("[data-cancel]");
+  if(cb){
+    const b = S.bookings.find(x => x.id === +cb.dataset.cancel);
+    if(b){ b.status = "Cancelled"; save(); renderBookings(); }
+  }
+});
+
+document.addEventListener("change", e => {
+  const inp = e.target.closest("[data-photo]");
+  if(!inp || !inp.files[0]) return;
+  const id = inp.dataset.photo, file = inp.files[0];
+  const img = new Image(), url = URL.createObjectURL(file);
+  img.onload = () => {
+    const w = Math.min(1000, img.width), h = Math.round(img.height * w / img.width);
+    const cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+    cv.getContext("2d").drawImage(img, 0, 0, w, h);
+    URL.revokeObjectURL(url);
+    S.photos[id] = cv.toDataURL("image/jpeg", 0.75);
+    save(); const y = scrollY; render(); scrollTo(0, y);
+  };
+  img.src = url;
+});
+$("item").addEventListener("change", updateTotal);
+$("people").addEventListener("input", updateTotal);
+
+$("form").addEventListener("submit", e => {
+  e.preventDefault();
+  const it = findItem($("item").value);
+  const visit = $("visit").value, n = parseInt($("people").value, 10);
+  const name = $("name").value.trim(), email = $("email").value.trim(), phone = $("phone").value.trim();
+  const today = new Date().toISOString().slice(0, 10);
+
+  if(!it || !visit || visit < today || !(n >= 1) || !name || !/^\S+@\S+\.\S+$/.test(email) || !phone){
+    say(t("errFill"), true); return;
+  }
+  const left = it.obj.cap - booked(it.kind, it.obj.id);
+  if(n > left){ say(t("errCap") + Math.max(left, 0), true); return; }
+
+  let u = S.users.find(x => x.email.toLowerCase() === email.toLowerCase());
+  if(!u){ u = {id: S.nextUser++, name, email, phone}; S.users.push(u); }
+  u.interest = filter || null;
+
+  S.bookings.push({
+    id: S.nextBooking++, userId: u.id,
+    tourId: it.kind === "T" ? it.obj.id : null,
+    eventId: it.kind === "E" ? it.obj.id : null,
+    bookingDate: today, visitDate: visit, people: n, status: "Pending"
+  });
+  save(); renderBookings(); say(t("ok"), false);
+  $("form").reset(); $("people").value = 1; $("visit").min = today; updateTotal();
+});
+
+$("visit").min = new Date().toISOString().slice(0, 10);
+render();
+</script>
+
+</body>
+</html>
