@@ -139,6 +139,28 @@ input,select{width:100%;font:inherit;color:var(--ink);background:var(--sand);bor
   html{scroll-behavior:auto}
   .caravan{animation:none}
 }
+
+/* ---------- غروب متحرك + نجوم ---------- */
+.sun{animation:sunset 20s ease-in-out infinite alternate}
+@keyframes sunset{from{transform:translateY(-20px)}to{transform:translateY(95px)}}
+.hero{animation:skyshift 20s ease-in-out infinite alternate}
+@keyframes skyshift{from{background-color:var(--dune)}to{background-color:color-mix(in srgb,var(--accent) 38%,var(--dune))}}
+.stars{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .6s}
+.stars::before,.stars::after{content:"";position:absolute;top:0;left:0;width:2px;height:2px;border-radius:50%}
+.stars::before{box-shadow:8vw 24px #fff7e0,18vw 70px #fff7e0,31vw 18px #fff7e0,44vw 60px #fff7e0,57vw 30px #fff7e0,68vw 84px #fff7e0,79vw 22px #fff7e0,90vw 58px #fff7e0,96vw 14px #fff7e0,12vw 110px #fff7e0}
+.stars::after{box-shadow:5vw 50px #fff7e0,22vw 40px #fff7e0,36vw 96px #fff7e0,50vw 12px #fff7e0,63vw 66px #fff7e0,74vw 48px #fff7e0,85vw 100px #fff7e0,93vw 36px #fff7e0;animation:twinkle 3s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.15}to{opacity:1}}
+:root[data-theme="dark"] .stars{opacity:1}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .stars{opacity:1}}
+@media (prefers-reduced-motion:reduce){.sun,.hero,.stars::after{animation:none}}
+/* ---------- أشخاص + نطق الاسم + نص عن السعودية ---------- */
+.pm,.pw{width:34px}
+.speak{border:1px solid var(--accent);color:var(--accent);background:transparent;border-radius:999px;padding:3px 12px;font:inherit;font-size:.85rem;cursor:pointer}
+.speak:hover{background:var(--accent);color:var(--on)}
+.about{max-width:62ch;margin:36px auto 0;text-align:center;color:var(--muted);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.about::before{content:"✦";display:block;color:var(--accent);margin-bottom:6px}
+@media (max-width:420px){.pm,.pw{width:28px}.t2{display:none}}
 </style>
 </head>
 <body>
@@ -175,6 +197,7 @@ input,select{width:100%;font:inherit;color:var(--ink);background:var(--sand);bor
     <p class="tagline" id="tagline"></p>
   </div>
   <span class="sun"></span>
+  <div class="stars" aria-hidden="true"></div>
   <div class="caravan" aria-hidden="true">
     <svg class="c1" viewBox="0 0 130 100"><use href="#camel"/></svg>
     <svg class="c2" viewBox="0 0 130 100"><use href="#camel"/></svg>
@@ -183,6 +206,19 @@ input,select{width:100%;font:inherit;color:var(--ink);background:var(--sand);bor
   <div class="tents" aria-hidden="true">
     <svg class="t1" viewBox="0 0 120 90"><use href="#tent"/></svg>
     <svg class="t2" viewBox="0 0 120 90"><use href="#tent"/></svg>
+<svg class="pm" viewBox="0 0 60 140" role="img" aria-label="رجل بالشماغ">
+      <defs><pattern id="shm" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#f7f2e8"/><path d="M0 0H6M0 0V6" stroke="#c0392b" stroke-width="1.6"/></pattern></defs>
+      <path d="M18 52 Q30 46 42 52 L47 134 H13 Z" fill="#f4eee0" stroke="#bdb39c" stroke-width="1"/>
+      <path d="M18 54 L9 104 L16 106 L24 64 Z M42 54 L51 104 L44 106 L36 64 Z" fill="#f4eee0" stroke="#bdb39c" stroke-width="1"/>
+      <path d="M16 30 Q16 12 30 12 Q44 12 44 30 L45 47 Q38 41 30 45 Q22 41 15 47 Z" fill="url(#shm)" stroke="#bdb39c" stroke-width="1"/>
+      <ellipse cx="30" cy="32" rx="7" ry="9" fill="#c99a6b"/>
+      <ellipse cx="30" cy="15" rx="14" ry="3.5" fill="none" stroke="#1d1a22" stroke-width="3"/>
+    </svg>
+    <svg class="pw" viewBox="0 0 60 140" role="img" aria-label="امرأة بالنقاب">
+      <path d="M16 50 Q30 42 44 50 L51 134 H9 Z" fill="#1f1b25" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+      <path d="M15 30 Q15 10 30 10 Q45 10 45 30 L45 52 Q30 58 15 52 Z" fill="#1f1b25" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+      <rect x="21" y="27" width="18" height="4" rx="2" fill="#d8c3a5"/>
+    </svg>
   </div>
   <svg class="dunes" viewBox="0 0 800 120" preserveAspectRatio="none" aria-hidden="true">
     <path d="M0 70 C120 20 220 20 340 62 C460 104 560 96 680 50 C740 28 780 36 800 44 L800 120 L0 120 Z"/>
@@ -218,9 +254,9 @@ input,select{width:100%;font:inherit;color:var(--ink);background:var(--sand);bor
   </aside>
 </div>
 
+<p class="about" id="about"></p>
 <p class="credit" id="credit"></p>
-<a class="fab" href="#booking">🎟️ <span id="fabLabel"></span> (<span id="fabN">0</span>)</a>
-<script>
+<a class="fab" href="#booking">🎟️ <span id="fabLabel"></span> (<span id="fabN">0</span>)</a><script>
 const L = (ar, en, fr) => ({ar, en, fr});
 
 const UI = {
@@ -678,7 +714,7 @@ function render(){
 
   buildItems();
   updateTotal();
-  renderBookings();
+  renderBookings()
 }
 
 function say(text, isErr){
@@ -765,6 +801,97 @@ $("form").addEventListener("submit", e => {
   $("form").reset(); $("people").value = 1; $("visit").min = today; updateTotal();
 });
 
+/* ===== ميزات إضافية: الاستماع للاسم + نص عن السعودية ===== */
+const EXTRA = {
+  ar: {listen: "🔊 اسمعوا الاسم",
+    tagline: "اكتشفوا ثقافة كل مدينة وأشهر وجهاتها وفعالياتها واحجزوا جولتكم",
+    about: "أرض الحرمين ومهد الحضارات وبلد الكرم والضيافة. من رمال الربع الخالي إلى جبال السروات وشواطئ البحر الأحمر والخليج العربي، لكل ركن قصة تنتظر من يكتشفها."},
+  en: {listen: "🔊 Listen to the name",
+    tagline: "Discover each city's culture, top places and events, and book your tour",
+    about: "Land of the Two Holy Mosques, cradle of civilizations and home of generous hospitality. From the dunes of the Empty Quarter to the Sarawat mountains and the shores of the Red Sea and the Arabian Gulf, every corner has a story waiting to be discovered."},
+  fr: {listen: "🔊 Écouter le nom",
+    tagline: "Découvrez la culture, les lieux phares et les événements de chaque ville, et réservez votre visite",
+    about: "Terre des Deux Saintes Mosquées, berceau de civilisations et pays de l'hospitalité. Des dunes du Quart Vide aux monts Sarawat et aux rivages de la mer Rouge et du golfe Arabique, chaque coin cache une histoire à découvrir."}
+};
+function speakCity(id){
+  if(!("speechSynthesis" in window)) return;
+  const c = CITIES.find(x => x.id === id); if(!c) return;
+  speechSynthesis.cancel();
+  const parts = [["ar-SA", c.name.ar], ["en-US", c.name.en]];
+  if(c.name.fr.toLowerCase() !== c.name.en.toLowerCase()) parts.push(["fr-FR", c.name.fr]);
+  parts.forEach(([l, txt]) => {
+    const u = new SpeechSynthesisUtterance(txt); u.lang = l; u.rate = 0.85; speechSynthesis.speak(u);
+  });
+}
+function enhance(){
+  const x = EXTRA[lang];
+  $("tagline").textContent = x.tagline;
+  $("about").textContent = x.about;
+  document.querySelectorAll(".city").forEach(sec => {
+    const tools = sec.querySelector(".tools");
+    if(tools) tools.insertAdjacentHTML("afterbegin", `<button class="speak" type="button" data-speak="${sec.id.replace("city-", "")}">${x.listen}</button>`);
+  });
+}
+const _render = render;
+render = function(){ _render(); enhance(); };
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-speak]"); if(b) speakCity(+b.dataset.speak);
+});
+
+/* ===== صوت الصحراء (رياح خفيفة) ===== */
+(function(){
+  const st = document.createElement("style");
+  st.textContent = "#soundBtn{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));inset-inline-start:max(16px,env(safe-area-inset-left,0px),env(safe-area-inset-right,0px));z-index:30;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:1.25rem;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25)}";
+  document.head.appendChild(st);
+
+  let ctx, master, on = false;
+  const btn = document.createElement("button");
+  btn.id = "soundBtn"; btn.type = "button"; btn.textContent = "🔇";
+  btn.title = "صوت الصحراء / Desert sound / Son du désert";
+  btn.setAttribute("aria-label", btn.title);
+  document.body.appendChild(btn);
+
+  function build(){
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const len = ctx.sampleRate * 4, buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
+    let last = 0;
+    for(let i = 0; i < len; i++){ last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02; d[i] = last * 3.5; }
+    const src = ctx.createBufferSource(); src.buffer = buf; src.loop = true;
+    const filt = ctx.createBiquadFilter(); filt.type = "bandpass"; filt.frequency.value = 500; filt.Q.value = 0.6;
+    const gust = ctx.createGain(); gust.gain.value = 0.6;
+    const lfo = ctx.createOscillator(); lfo.frequency.value = 0.12;
+    const lfoG = ctx.createGain(); lfoG.gain.value = 0.35;
+    lfo.connect(lfoG); lfoG.connect(gust.gain);
+    const lfo2 = ctx.createOscillator(); lfo2.frequency.value = 0.07;
+    const lfo2G = ctx.createGain(); lfo2G.gain.value = 180;
+    lfo2.connect(lfo2G); lfo2G.connect(filt.frequency);
+    master = ctx.createGain(); master.gain.value = 0;
+    src.connect(filt); filt.connect(gust); gust.connect(master); master.connect(ctx.destination);
+    src.start(); lfo.start(); lfo2.start();
+  }
+  function setOn(v){
+    try {
+      if(!ctx) build();
+      if(ctx.state === "suspended") ctx.resume();
+      on = v;
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.linearRampToValueAtTime(on ? 0.35 : 0, ctx.currentTime + 1.5);
+      btn.textContent = on ? "🔊" : "🔇";
+    } catch (e) {}
+  }
+  btn.addEventListener("click", () => {
+    setOn(!on);
+    try { localStorage.setItem("malameh_sound", on ? "on" : "off"); } catch (e) {}
+  });
+  /* المتصفحات تمنع الصوت قبل أول لمسة، فيبدأ مع أول ضغطة في الصفحة */
+  function first(e){
+    ["pointerdown", "keydown", "touchend"].forEach(n => document.removeEventListener(n, first));
+    if(e.target && e.target.closest && e.target.closest("#soundBtn")) return;
+    let pref = null; try { pref = localStorage.getItem("malameh_sound"); } catch (er) {}
+    if(pref !== "off") setOn(true);
+  }
+  ["pointerdown", "keydown", "touchend"].forEach(n => document.addEventListener(n, first));
+})();
 $("visit").min = new Date().toISOString().slice(0, 10);
 render();
 </script>
